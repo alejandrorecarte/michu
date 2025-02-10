@@ -10,9 +10,9 @@ class Lobby(BaseModel):
     name: str
     max_players: int
     players: List[User] = []
-    michu = Michu
+    michu : Michu
     is_public: bool = True
-    host = User
+    host : User
 
     def start_game(self):
         self.michu = Michu(self.players)

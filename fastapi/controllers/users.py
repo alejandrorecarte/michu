@@ -1,22 +1,18 @@
 from fastapi import HTTPException, status
 from models.users import User
+from database import create_user
 import logging
+import hashlib
 
 logger = logging.getLogger(__name__)
 
-users = []
+
+# Hash password
+def hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
 
 # Create new lobby
-def create_user(username: str):
-    user = User(username=username)
-    users.append(user)
+def create_user(email: str, username: str, password: str):
+    user = User(email = email, username=username, hash_password= hash_password(password))
+    create_user(user)
     return user
-
-def get_user (user_id: str):
-    for user in users:
-        if user.id == user_id:
-            return user
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="User not found"
-    )

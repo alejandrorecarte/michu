@@ -12,7 +12,7 @@ router = APIRouter()
 def post_create(variables: PostCreateUserRequest, response: Response):
     try:
         # Call the controller
-        return create_user(username= variables.username)
+        return create_user(email = variables.email, username = variables.username, password = variables.password)
     except Exception as error:
         logger.warning(str(error))
         raise HTTPException(
